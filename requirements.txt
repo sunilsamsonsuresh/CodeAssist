@@ -4,3 +4,5 @@ ctransformers
 langchain
 python-box
 streamlit
+torch
+transformers
