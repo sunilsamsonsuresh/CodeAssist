@@ -1,34 +1,16 @@
 import streamlit as st
+from huggingface_hub import hf_hub_download
 from langchain.prompts import PromptTemplate
+from langchain.llms import CTransformers
 from ctransformers import AutoModelForCausalLM
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
 
 
 def complete_code(coding_lang, instruction):
-
-    MODEL_NAME = "codellama/CodeLlama-34b-Instruct-hf"
-
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_NAME, device_map="auto", torch_dtype=torch.float16, load_in_8bit=False
-    )
-
-    generation_config = GenerationConfig.from_pretrained(MODEL_NAME)
-    generation_config.max_new_tokens = 20
-    generation_config.temperature = 0.0001
-    generation_config.do_sample = True
-
-    llm = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        return_full_text=True,
-        generation_config=generation_config,
-        num_return_sequences=1,
-        eos_token_id=tokenizer.eos_token_id,
-        pad_token_id=tokenizer.eos_token_id,
-    )
+    llm = CTransformers(model='/content/drive/MyDrive/Colab/model/codellama-13b-instruct.Q4_K_M.gguf',
+                      model_type='llama',
+                      config={'max_new_tokens':512,
+                              'temperature':0.01,
+                              'gpu_layers': 50})
 
     template = """
     You are an exceptionally intelligent {coding_lang} coding assistant that \n
@@ -74,5 +56,3 @@ if submit:
 
     # Display the code in a separate box
     st.code(code_portion)
-
-
