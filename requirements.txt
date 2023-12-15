@@ -6,3 +6,5 @@ python-box
 streamlit
 torch
 transformers
+accelerate
+bitsandbytes

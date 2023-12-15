@@ -1,6 +1,5 @@
 import streamlit as st
 from langchain.prompts import PromptTemplate
-from langchain.llms import CTransformers
 from ctransformers import AutoModelForCausalLM
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
@@ -12,7 +11,7 @@ def complete_code(coding_lang, instruction):
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_NAME, device_map="auto", torch_dtype=torch.float16, load_in_8bit=True
+        MODEL_NAME, device_map="auto", torch_dtype=torch.float16, load_in_8bit=False
     )
 
     generation_config = GenerationConfig.from_pretrained(MODEL_NAME)
