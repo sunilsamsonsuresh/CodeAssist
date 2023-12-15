@@ -6,7 +6,7 @@ from ctransformers import AutoModelForCausalLM
 
 
 def complete_code(coding_lang, instruction):
-    llm = CTransformers(model='/content/drive/MyDrive/Colab/model/codellama-13b-instruct.Q4_K_M.gguf',
+    llm = CTransformers(model="<model_path>",
                       model_type='llama',
                       config={'max_new_tokens':512,
                               'temperature':0.01,
